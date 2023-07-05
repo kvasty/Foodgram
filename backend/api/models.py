@@ -27,12 +27,12 @@ class Tag(models.Model):
         'Цвет',
         max_length=7,
         unique=True
-        )
+    )
     slug = models.SlugField(
         'Ссылка',
         max_length=100,
         unique=True
-        )
+    )
 
     class Meta:
         ordering = ['-id']
