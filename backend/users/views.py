@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from api.paginators import LimitPagePagination
 
 from .models import Follow
-from .serializers import FollowSerializer, CustomUserSerializer
+from .serializers import FollowSerializer
 
 User = get_user_model()
 
@@ -18,7 +18,6 @@ class CustomUserViewSet(UserViewSet):
     """Обрабатывает кастомного юзера"""
     queryset = User.objects.all()
     pagination_class = LimitPagePagination
-    serializer_class = CustomUserSerializer
 
     @action(detail=True, methods=['post', 'delete'],
             permission_classes=[IsAuthenticated])

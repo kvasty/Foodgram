@@ -41,9 +41,9 @@ class RecipeShortSerializer(serializers.ModelSerializer):
 
 class IngredientRecipeSerializer(serializers.ModelSerializer):
     """Ингридиенты для рецепта"""
-    id = serializers.IntegerField(source='ingredient.id')
-    title = serializers.CharField(source='ingredient.title')
-    units = serializers.CharField(source='ingredient.units')
+    id = serializers.ReadOnlyField(source='ingredient.id')
+    title = serializers.ReadOnlyField(source='ingredient.title')
+    units = serializers.ReadOnlyField(source='ingredient.units')
 
     class Meta:
         model = IngredientToRecipe
@@ -55,7 +55,8 @@ class RecipeSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, read_only=True)
     ingredients = IngredientRecipeSerializer(
         many=True,
-        source='ingredient_recipe'
+        source='ingredient_recipe',
+        read_only=True,
     )
     author = CustomUserSerializer(read_only=True)
     is_favorited = SerializerMethodField()
@@ -106,7 +107,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         )
         return data
 
-    def create_recipe(self, validated_data):
+    def create(self, validated_data):
         """Создание рецепта"""
         ingredients = validated_data.pop('ingredients')
         tags = validated_data.pop('tags')

@@ -60,13 +60,17 @@ class RecipeViewSet(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
-    def add_recipe(self, model, user, pk):
+    def add_obj(self, model, user, pk):
+        if model.objects.filter(user=user, recipe__id=pk).exists():
+            return Response({
+                'errors': 'Рецепт уже создан'
+            }, status=status.HTTP_400_BAD_REQUEST)
         recipe = get_object_or_404(Recipe, id=pk)
         model.objects.create(user=user, recipe=recipe)
         serializer = RecipeShortSerializer(recipe)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def delete_recipe(self, model, user, pk):
+    def delete_obj(self, model, user, pk):
         object = model.objects.filter(user=user, recipe__id=pk)
         object.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

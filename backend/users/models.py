@@ -6,6 +6,11 @@ MAX_LENGTH = 100
 
 class CustomUser(AbstractUser):
     """Кастомный юзер для фудграма"""
+    email = models.EmailField(
+        unique=True,
+        verbose_name='Электронная почта',
+        max_length=MAX_LENGTH
+    )
     username = models.CharField(
         unique=True,
         verbose_name='Логин',
@@ -14,11 +19,6 @@ class CustomUser(AbstractUser):
     password = models.CharField(
         unique=True,
         verbose_name='Пароль',
-        max_length=MAX_LENGTH
-    )
-    email = models.EmailField(
-        unique=True,
-        verbose_name='Электронная почта',
         max_length=MAX_LENGTH
     )
     first_name = models.CharField(
