@@ -7,7 +7,7 @@ from django_filters.rest_framework import (
 )
 from rest_framework.filters import SearchFilter
 
-from api.models import Ingredient, Recipe
+from recipes.models import Ingredient, Recipe
 
 User = get_user_model()
 

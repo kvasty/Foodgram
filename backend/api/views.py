@@ -8,8 +8,7 @@ from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 
 from api.paginators import LimitPagePagination
-
-from .models import (
+from recipes.models import (
     Tag,
     Ingredient,
     Recipe,
@@ -25,7 +24,8 @@ from .serializers import (
     TagSerializer,
     IngredientSerializer,
     RecipeSerializer,
-    RecipeShortSerializer
+    RecipeShortSerializer,
+    CreateRecipeSerializer
 )
 from .filters import (
     IngredientFilter,
@@ -53,27 +53,16 @@ class RecipeViewSet(ModelViewSet):
     """Обрабатывает рецепты"""
     queryset = Recipe.objects.all()
     permission_classes = (IsOwnerOrReadOnly,)
-    serializer_class = RecipeSerializer
     pagination_class = LimitPagePagination
     filter_class = RecipeFilter
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
-    def add_obj(self, model, user, pk):
-        if model.objects.filter(user=user, recipe__id=pk).exists():
-            return Response({
-                'errors': 'Рецепт уже создан'
-            }, status=status.HTTP_400_BAD_REQUEST)
-        recipe = get_object_or_404(Recipe, id=pk)
-        model.objects.create(user=user, recipe=recipe)
-        serializer = RecipeShortSerializer(recipe)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    def delete_obj(self, model, user, pk):
-        object = model.objects.filter(user=user, recipe__id=pk)
-        object.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return RecipeSerializer
+        return CreateRecipeSerializer
 
     @action(methods=['post', 'delete'], detail=True,
             permission_classes=[IsAuthenticated])
@@ -95,12 +84,27 @@ class RecipeViewSet(ModelViewSet):
             return self.delete_obj(Cart, request.user, pk)
         return None
 
+    def add_obj(self, model, user, pk):
+        if model.objects.filter(user=user, recipe__id=pk).exists():
+            return Response({
+                'errors': 'Рецепт уже добавлен'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        recipe = get_object_or_404(Recipe, id=pk)
+        model.objects.create(user=user, recipe=recipe)
+        serializer = RecipeShortSerializer(recipe)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def delete_obj(self, model, user, pk):
+        object = model.objects.filter(user=user, recipe__id=pk)
+        object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
     @action(detail=False, methods=['get'],
             permission_classes=[IsAuthenticated])
     def download_shopping_cart(self, request):
         """Загрузить список покупок"""
         user = self.request.user
-        if not user.carts.exists():
+        if not user.cart.exists():
             return Response(status=HTTP_400_BAD_REQUEST)
         filename = f"{user.username}_shopping_list.txt"
         ingredients = IngredientToRecipe.objects.filter(
@@ -116,6 +120,7 @@ class RecipeViewSet(ModelViewSet):
             f' - {ingredient["quantity"]}'
             for ingredient in ingredients
         ])
+        print(shopping_cart_list)
         response = HttpResponse(
             shopping_cart_list, content_type='text.txt; charset=utf-8'
         )

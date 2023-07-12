@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from djoser.serializers import UserSerializer
 from rest_framework.serializers import SerializerMethodField
 
+from .models import Follow
+
 User = get_user_model()
 
 
@@ -22,10 +24,9 @@ class CustomUserSerializer(UserSerializer):
     def get_is_subscribed(self, obj):
         """Проверка подписки"""
         user = self.context.get('request').user
-        return (
-            user.is_authenticated
-            and user.objects.filter(user=user, author=obj).exists()
-        )
+        if user.is_anonymous:
+            return False
+        return Follow.objects.filter(user=user, author=obj).exists()
 
     def create(self, validated_data):
         """Создание пользователя"""
@@ -38,27 +39,3 @@ class CustomUserSerializer(UserSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
-
-
-class FollowSerializer(UserSerializer):
-    """Подписки пользователя"""
-    class Meta:
-        model = User
-        fields = ('id',
-                  'email',
-                  'username',
-                  'first_name',
-                  'last_name',
-                  'is_subscribed',
-                  'recipes',
-                  'recipes_count')
-
-    def get_is_subscribed(self, obj):
-        """Проверка подписки"""
-        return User.objects.filter(
-            user=obj.user, author=obj.author
-        ).exists()
-
-    def get_recipes_count(self, obj):
-        """Кол-во рецептов юзера"""
-        return obj.recipes.count()

@@ -7,9 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from api.paginators import LimitPagePagination
-
 from .models import Follow
-from .serializers import FollowSerializer
+from api.serializers import FollowSerializer, CustomUserSerializer
 
 User = get_user_model()
 
@@ -18,6 +17,7 @@ class CustomUserViewSet(UserViewSet):
     """Обрабатывает кастомного юзера"""
     queryset = User.objects.all()
     pagination_class = LimitPagePagination
+    serializer_class = CustomUserSerializer
 
     @action(detail=True, methods=['post', 'delete'],
             permission_classes=[IsAuthenticated])
@@ -25,6 +25,7 @@ class CustomUserViewSet(UserViewSet):
         """Подписка/отписка юзера"""
         user = request.user
         author = get_object_or_404(User, id=id)
+        print(author)
 
         if request.method == 'POST':
             if user == author:
@@ -44,11 +45,12 @@ class CustomUserViewSet(UserViewSet):
             follow.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @action(detail=False, permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=['get'],
+            permission_classes=[IsAuthenticated])
     def subscriptions(self, request):
         """Подписки пользователя"""
-        user = request.user
-        queryset = Follow.objects.filter(user=user)
+        user = self.request.user
+        queryset = User.objects.filter(follower__user=user)
         pages = self.paginate_queryset(queryset)
         serializer = FollowSerializer(
             pages,

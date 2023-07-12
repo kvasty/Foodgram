@@ -1,34 +1,34 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-MAX_LENGTH = 100
+from foodgram.settings import MAX_LENGTH
 
 
 class CustomUser(AbstractUser):
     """Кастомный юзер для фудграма"""
     email = models.EmailField(
         unique=True,
-        verbose_name='Электронная почта',
+        verbose_name='электронная почта',
         max_length=MAX_LENGTH
     )
     username = models.CharField(
         unique=True,
-        verbose_name='Логин',
+        verbose_name='логин',
         max_length=MAX_LENGTH
     )
     password = models.CharField(
         unique=True,
-        verbose_name='Пароль',
+        verbose_name='пароль',
         max_length=MAX_LENGTH
     )
     first_name = models.CharField(
         unique=True,
-        verbose_name='Имя',
+        verbose_name='имя',
         max_length=MAX_LENGTH
     )
     last_name = models.CharField(
         unique=True,
-        verbose_name='Фамилия',
+        verbose_name='фамилия',
         max_length=MAX_LENGTH
     )
 
@@ -36,8 +36,8 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
 
     class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        verbose_name = 'пользователь'
+        verbose_name_plural = 'пользователи'
         ordering = ('id',)
 
     def __str__(self) -> str:
@@ -48,20 +48,20 @@ class Follow(models.Model):
     """Подписчик на автора рецепта"""
     user = models.ForeignKey(
         CustomUser,
-        verbose_name='Подписчик',
+        verbose_name='подписчик',
         on_delete=models.CASCADE,
         related_name='follower',
     )
     author = models.ForeignKey(
         CustomUser,
-        verbose_name='Автор рецепта',
+        verbose_name='автор рецепта',
         on_delete=models.CASCADE,
         related_name='following',
     )
 
     class Meta:
-        verbose_name = 'Подписка'
-        verbose_name_plural = 'Подписки'
+        verbose_name = 'подписка'
+        verbose_name_plural = 'подписки'
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'author'],
