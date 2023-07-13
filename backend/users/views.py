@@ -25,14 +25,13 @@ class CustomUserViewSet(UserViewSet):
         """Подписка/отписка юзера"""
         user = request.user
         author = get_object_or_404(User, id=id)
-        print(author)
 
         if request.method == 'POST':
             if user == author:
                 return Response({
                     'errors': 'Подписка на самого себя не разрешена'
                 }, status=status.HTTP_400_BAD_REQUEST)
-            if Follow.objects.filter(user=user, author=author).exists():
+            if user.follower.filter(author=author).exists():
                 return Response({
                     'errors': 'Подписка уже состоялась'
                 }, status=status.HTTP_400_BAD_REQUEST)

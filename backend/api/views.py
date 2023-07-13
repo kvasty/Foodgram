@@ -120,7 +120,6 @@ class RecipeViewSet(ModelViewSet):
             f' - {ingredient["quantity"]}'
             for ingredient in ingredients
         ])
-        print(shopping_cart_list)
         response = HttpResponse(
             shopping_cart_list, content_type='text.txt; charset=utf-8'
         )
