@@ -40,9 +40,9 @@ Content-Type: application/json
 POST http://127.0.0.1:8000/api/auth/token/logout/
 Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
 ###
-GET http://127.0.0.1:8000/api/tags/
+GET http://127.0.0.1:9000/api/tags/
 ###
-GET http://127.0.0.1:8000/api/tags/1/
+GET http://127.0.0.1:9000/api/tags/1/
 ###
 GET http://127.0.0.1:8000/api/recipes/
 page:
@@ -93,16 +93,16 @@ Content-Type: application/json
 }
 ###
 DELETE http://127.0.0.1:8000/api/recipes/16/
-Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
+Authorization: Token 10b96c3bdd8698ab09252e5710e2771583618b14
 ###
-POST http://127.0.0.1:8000/api/recipes/2/shopping_cart/
-Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
+POST http://127.0.0.1:9000/api/recipes/2/shopping_cart/
+Authorization: Token 10b96c3bdd8698ab09252e5710e2771583618b14
 ###
-DELETE http://127.0.0.1:8000/api/recipes/15/shopping_cart/
-Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
+DELETE http://127.0.0.1:9000/api/recipes/2/shopping_cart/
+Authorization: Token 10b96c3bdd8698ab09252e5710e2771583618b14
 ###
-GET http://127.0.0.1:8000/api/recipes/download_shopping_cart/
-Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
+GET http://127.0.0.1:9000/api/recipes/download_shopping_cart/
+Authorization: Token 10b96c3bdd8698ab09252e5710e2771583618b14
 ###
 GET http://127.0.0.1:8000/api/ingredients/
 ?title=Сосиски

@@ -15,6 +15,8 @@ DEBUG = os.getenv('DEBUG_VALUE', True)
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = ["http://localhost", "http://127.0.0.1", "https://kvasty.serveblog.net"]
+
 MAX_LENGTH = 100
 
 INSTALLED_APPS = [

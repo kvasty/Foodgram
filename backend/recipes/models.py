@@ -9,32 +9,32 @@ User = get_user_model()
 
 class Ingredient(models.Model):
     """Ингридиент для рецепта"""
-    title = models.CharField(
+    name = models.CharField(
         'название',
         max_length=MAX_LENGTH,
         db_index=True
     )
-    units = models.CharField(
+    measurement_unit = models.CharField(
         'единицы измерения',
         max_length=MAX_LENGTH)
 
     class Meta:
-        ordering = ['title']
+        ordering = ['name']
         verbose_name = 'ингредиент'
         verbose_name_plural = 'ингредиенты'
         constraints = [
-            models.UniqueConstraint(fields=['title', 'units'],
+            models.UniqueConstraint(fields=['name', 'measurement_unit'],
                                     name='unique_ingredient')
         ]
 
     def __str__(self):
-        return self.title
+        return self.name
 
 
 class Tag(models.Model):
     """Тэг для рецепта"""
-    title = models.CharField('название', max_length=MAX_LENGTH)
-    hex = models.CharField(
+    name = models.CharField('название', unique=True, max_length=MAX_LENGTH)
+    color = models.CharField(
         'цвет',
         max_length=7,
         unique=True
@@ -51,7 +51,7 @@ class Tag(models.Model):
         verbose_name_plural = 'тэги'
 
     def __str__(self):
-        return self.title
+        return self.name
 
 
 class Recipe(models.Model):
@@ -61,7 +61,7 @@ class Recipe(models.Model):
         on_delete=models.CASCADE,
         related_name='recipes'
     )
-    title = models.CharField('название', max_length=MAX_LENGTH)
+    name = models.CharField('название', max_length=MAX_LENGTH)
     image = models.ImageField(
         'картинка',
         upload_to='recipes/',
@@ -87,7 +87,7 @@ class Recipe(models.Model):
         ordering = ('-pub_date', )
 
     def __str__(self):
-        return f'{self.author.email}, {self.title}'
+        return self.name
 
 
 class IngredientToRecipe(models.Model):
@@ -101,7 +101,7 @@ class IngredientToRecipe(models.Model):
         on_delete=models.CASCADE,
         related_name='ingredient_recipe'
     )
-    quantity = models.PositiveSmallIntegerField(
+    amount = models.PositiveSmallIntegerField(
         verbose_name='количество',
         validators=[MinValueValidator(1, message='Минимальное количество 1')]
     )
@@ -111,8 +111,8 @@ class IngredientToRecipe(models.Model):
         verbose_name_plural = 'связи рецептов и ингредиентов'
 
     def __str__(self):
-        return (f'Связь ингредиента {self.ingredient.title}',
-                f'и рецепта: {self.recipe.title}')
+        return (f'Связь ингредиента {self.ingredient.name}',
+                f'и рецепта: {self.recipe.name}')
 
 
 class Favorite(models.Model):

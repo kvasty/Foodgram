@@ -46,7 +46,7 @@ class IngredientsViewSet(ReadOnlyModelViewSet):
     permission_classes = (IsAdminOrReadOnly,)
     serializer_class = IngredientSerializer
     filter_backends = (IngredientFilter,)
-    search_fields = ('^title',)
+    search_fields = ('^name',)
 
 
 class RecipeViewSet(ModelViewSet):
@@ -68,7 +68,7 @@ class RecipeViewSet(ModelViewSet):
             permission_classes=[IsAuthenticated])
     def favorite(self, request, pk):
         """Добавить/удалить рецепт из избранного"""
-        if request.method == 'POST':
+        if request.method == 'GET':
             return self.add_obj(Favorite, request.user, pk)
         elif request.method == 'DELETE':
             return self.delete_obj(Favorite, request.user, pk)
@@ -109,15 +109,19 @@ class RecipeViewSet(ModelViewSet):
         filename = f"{user.username}_shopping_list.txt"
         ingredients = IngredientToRecipe.objects.filter(
             recipe__cart__user=request.user).values_list(
-            'ingredient__title', 'ingredient__units',
-            'quantity')
+            'ingredient__name', 'ingredient__measurement_unit',
+            'amount')
         shopping_cart_list = (
             f'Список покупок для: {user.get_full_name()}\n\n'
         )
         shopping_cart_list += '\n'.join([
-            f'- {ingredient["ingredient__title"]} '
-            f'({ingredient["ingredient__units"]})'
-            f' - {ingredient["quantity"]}'
+            ' '.join(
+                [
+                    str(ingredient[0]),
+                    str(ingredient[1]),
+                    str(ingredient[2]),
+                ]
+            )
             for ingredient in ingredients
         ])
         response = HttpResponse(

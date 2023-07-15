@@ -5,8 +5,8 @@ from .models import Cart, Ingredient, Favorite, Recipe, Tag
 
 class RecipeAdmin(admin.ModelAdmin):
     """Модель рецептов в админке"""
-    list_display = ('title', 'author')
-    list_filter = ('author', 'title', 'tags')
+    list_display = ('name', 'author', 'count_favorites')
+    list_filter = ('author', 'name', 'tags')
 
     def count_favorites(self, obj):
         return obj.favorites.count()
@@ -14,8 +14,8 @@ class RecipeAdmin(admin.ModelAdmin):
 
 class IngredientAdmin(admin.ModelAdmin):
     """Модель ингридиента в админке"""
-    list_display = ('title', 'units')
-    list_filter = ('title',)
+    list_display = ('name', 'measurement_unit')
+    list_filter = ('name',)
 
 
 admin.site.register(Cart)
