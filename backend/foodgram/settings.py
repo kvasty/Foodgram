@@ -11,16 +11,11 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure')
 
-DEBUG = os.getenv('DEBUG_VALUE', False)
+DEBUG = os.getenv('DEBUG_VALUE', True)
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost", "http://127.0.0.1"]
-
 MAX_LENGTH = 100
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -70,8 +65,12 @@ WSGI_APPLICATION = 'foodgram.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql'),
+        'NAME': os.getenv('DB_NAME', default='postgres'),
+        'USER': os.getenv('POSTGRES_USER', default='postgres'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='postgres'),
+        'HOST': os.getenv('DB_HOST', default='127.0.0.1'),
+        'PORT': os.getenv('DB_PORT', default='5432')
     }
 }
 
@@ -108,11 +107,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_URL = '/static_backend/'
+STATIC_ROOT = BASE_DIR / 'collect_static'
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / MEDIA_URL
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/media'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
