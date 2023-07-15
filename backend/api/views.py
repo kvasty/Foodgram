@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -45,8 +46,8 @@ class IngredientsViewSet(ReadOnlyModelViewSet):
     queryset = Ingredient.objects.all()
     permission_classes = (IsAdminOrReadOnly,)
     serializer_class = IngredientSerializer
-    filter_backends = (IngredientFilter,)
-    search_fields = ('^name',)
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = IngredientFilter
 
 
 class RecipeViewSet(ModelViewSet):
@@ -54,7 +55,8 @@ class RecipeViewSet(ModelViewSet):
     queryset = Recipe.objects.all()
     permission_classes = (IsOwnerOrReadOnly,)
     pagination_class = LimitPagePagination
-    filter_class = RecipeFilter
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = RecipeFilter
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -106,7 +108,7 @@ class RecipeViewSet(ModelViewSet):
         user = self.request.user
         if not user.cart.exists():
             return Response(status=HTTP_400_BAD_REQUEST)
-        filename = f"{user.username}_shopping_list.txt"
+        filename = f'{user.username}_shopping_list.txt'
         ingredients = IngredientToRecipe.objects.filter(
             recipe__cart__user=request.user).values_list(
             'ingredient__name', 'ingredient__measurement_unit',

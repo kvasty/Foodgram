@@ -109,8 +109,8 @@ GET http://127.0.0.1:8000/api/ingredients/
 ###
 GET  http://127.0.0.1:8000/api/ingredients/3/
 ###
-POST http://127.0.0.1:8000/api/recipes/2/favorite/
-Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
+POST https://kvasty.serveblog.net/api/recipes/2/favorite/
+Authorization: Token ac81371aa128705dd81df0ece84a3cb279eb6dcd
 ###
 DELETE http://127.0.0.1:8000/api/recipes/2/favorite/
 Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
