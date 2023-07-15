@@ -73,6 +73,7 @@ Content-Type: application/json
 }
 ###
 GET http://127.0.0.1:8000/api/recipes/2/
+Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
 ###
 PATCH http://127.0.0.1:8000/api/recipes/16/
 Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
@@ -94,7 +95,7 @@ Content-Type: application/json
 DELETE http://127.0.0.1:8000/api/recipes/16/
 Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
 ###
-POST http://127.0.0.1:8000/api/recipes/15/shopping_cart/
+POST http://127.0.0.1:8000/api/recipes/2/shopping_cart/
 Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
 ###
 DELETE http://127.0.0.1:8000/api/recipes/15/shopping_cart/
@@ -111,7 +112,7 @@ GET  http://127.0.0.1:8000/api/ingredients/3/
 POST http://127.0.0.1:8000/api/recipes/2/favorite/
 Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
 ###
-DELETE http://127.0.0.1:8000/api/recipes/15/favorite/
+DELETE http://127.0.0.1:8000/api/recipes/2/favorite/
 Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
 ###
 GET  http://127.0.0.1:8000/api/users/subscriptions/
