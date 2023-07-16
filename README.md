@@ -13,7 +13,23 @@ Foodgram - продуктовый помощник с базой кулинар�
 - psycopg2-binary==2.9.3
 - python-dotenv==1.0.0
 
-# Инструкция...
+# Инструкция
+- Клонировать репозиторий:
+  https://github.com/kvasty/foodgram-project-react.git
+- Установить на сервере Docker, Docker Compose:
+  sudo apt install curl                                   
+  curl -fsSL https://get.docker.com -o get-docker.sh      
+  sh get-docker.sh                                        
+  sudo apt-get install docker-compose-plugin              
+- Скопировать на сервер файл docker-compose.production.yml
+- Создать и запустить контейнеры Docker, выполнить команду на сервере:
+  sudo docker compose -f docker-compose.production.yml up -d
+- После успешной сборки выполнить миграции:
+  sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
+- Собрать статику:
+  sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
+- Скопировать статику:
+  sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/collect_static/. /static_backend/static_backend/
 
 # Автор
 Анастасия @kvasty (c) 2023
