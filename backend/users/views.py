@@ -23,8 +23,11 @@ class CustomUserViewSet(UserViewSet):
             permission_classes=[IsAuthenticated])
     def subscribe(self, request, id):
         """Подписка/отписка юзера"""
+        #user = request.user
+        #author = get_object_or_404(User, id=id)
         user = request.user
-        author = get_object_or_404(User, id=id)
+        author_id = self.kwargs.get('id')
+        author = get_object_or_404(User, id=author_id)
 
         if request.method == 'POST':
             if user == author:
@@ -35,10 +38,11 @@ class CustomUserViewSet(UserViewSet):
                 return Response({
                     'errors': 'Подписка уже состоялась'
                 }, status=status.HTTP_400_BAD_REQUEST)
-            follow = Follow.objects.create(user=user, author=author)
             serializer = FollowSerializer(author,
                                           data=request.data,
                                           context={'request': request})
+            #follow = Follow.objects.create(user=user, author=author)
+            Follow.objects.create(user=user, author=author)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         if request.method == 'DELETE':

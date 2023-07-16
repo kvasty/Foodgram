@@ -70,7 +70,7 @@ class RecipeViewSet(ModelViewSet):
             permission_classes=[IsAuthenticated])
     def favorite(self, request, pk):
         """Добавить/удалить рецепт из избранного"""
-        if request.method == 'GET':
+        if request.method == 'POST':
             return self.add_obj(Favorite, request.user, pk)
         elif request.method == 'DELETE':
             return self.delete_obj(Favorite, request.user, pk)
