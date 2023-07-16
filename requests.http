@@ -1,0 +1,133 @@
+GET http://127.0.0.1:8000/api/users/
+page:1
+limit:6
+Authorization: Token 2b3b89e8442ebf2c11e818431226aa5e5ad07d1f
+###
+POST http://127.0.0.1:8000/api/users/
+Content-Type: application/json
+
+{
+"email": "fefsefgr@yandex.ru",
+"username": "ffswekjdgr.pupkin",
+"first_name": "РИся",
+"last_name": "РИпкин",
+"password": "fretuh567"
+}
+###
+GET http://127.0.0.1:8000/api/users/1/
+Authorization: Token 2b3b89e8442ebf2c11e818431226aa5e5ad07d1f
+###
+GET http://127.0.0.1:8000/api/users/me/
+Authorization: Token 2b3b89e8442ebf2c11e818431226aa5e5ad07d1f
+###
+POST http://127.0.0.1:8000/api/users/set_password/
+Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
+Content-Type: application/json
+
+{
+"new_password": "string123",
+"current_password": "tretuh567"
+}
+###
+POST http://127.0.0.1:8000/api/auth/token/login/
+Content-Type: application/json
+
+{
+"password": "fretuh567",
+"email": "fefsefgr@yandex.ru"
+}
+###
+POST http://127.0.0.1:8000/api/auth/token/logout/
+Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
+###
+GET http://127.0.0.1:8000/api/tags/
+###
+GET http://127.0.0.1:8000/api/tags/1/
+###
+GET http://127.0.0.1:8000/api/recipes/
+page:
+limit:
+is_favorited:
+is_in_shopping_cart:
+author:
+tags:
+###
+POST  http://127.0.0.1:8000/api/recipes/
+Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
+Content-Type: application/json
+
+{
+"ingredients": [
+    {
+      "id": 6,
+      "quantity": 5
+    }
+  ],
+"tags": [
+1
+],
+"image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==",
+"title": "Новенький",
+"text": "ИТАЛГОРУАш",
+"cooking_time": 20
+}
+###
+GET http://127.0.0.1:8000/api/recipes/2/
+Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
+###
+PATCH http://127.0.0.1:8000/api/recipes/16/
+Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
+Content-Type: application/json
+
+{
+"ingredients": [
+{}
+],
+"tags": [
+1
+],
+"image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==",
+"name": "string",
+"text": "string",
+"cooking_time": 1
+}
+###
+DELETE http://127.0.0.1:8000/api/recipes/16/
+Authorization: Token 10b96c3bdd8698ab09252e5710e2771583618b14
+###
+POST http://127.0.0.1:9000/api/recipes/2/shopping_cart/
+Authorization: Token 10b96c3bdd8698ab09252e5710e2771583618b14
+###
+DELETE http://127.0.0.1:9000/api/recipes/2/shopping_cart/
+Authorization: Token 10b96c3bdd8698ab09252e5710e2771583618b14
+###
+GET http://127.0.0.1:9000/api/recipes/download_shopping_cart/
+Authorization: Token 10b96c3bdd8698ab09252e5710e2771583618b14
+###
+GET http://127.0.0.1:9000/api/ingredients/
+?title=Сосиски
+###
+GET  http://127.0.0.1:9000/api/ingredients/2/
+###
+POST http://127.0.0.1:9000/api/recipes/2/favorite/
+Authorization: Token 10b96c3bdd8698ab09252e5710e2771583618b14
+###
+DELETE http://127.0.0.1:9000/api/recipes/2/favorite/
+Authorization: Token 10b96c3bdd8698ab09252e5710e2771583618b14
+###
+GET  http://127.0.0.1:9000/api/users/subscriptions/
+Authorization: Token 2bafd365c757d97db4997444c3b1925bb39063fa
+page:1
+limit:6
+recipes_limit:2
+###
+POST http://127.0.0.1:9000/api/users/2/subscribe/
+Authorization: Token 2bafd365c757d97db4997444c3b1925bb39063fa
+recipes_limit:1
+###
+DELETE  http://127.0.0.1:9000/api/users/2/subscribe/
+Authorization: Token 2bafd365c757d97db4997444c3b1925bb39063fa
+###
+Token 67c6ed4133fb420ce67fb042d0f0024894b1ef71
+9c8fdfc2670804bd19bae8b269bc2eab457bfb7c
+
