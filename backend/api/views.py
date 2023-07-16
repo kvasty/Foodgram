@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.db.models import Sum
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
@@ -105,29 +106,26 @@ class RecipeViewSet(ModelViewSet):
             permission_classes=[IsAuthenticated])
     def download_shopping_cart(self, request):
         """Загрузить список покупок"""
-        user = self.request.user
+        user = request.user
         if not user.cart.exists():
             return Response(status=HTTP_400_BAD_REQUEST)
         filename = f'{user.username}_shopping_list.txt'
         ingredients = IngredientToRecipe.objects.filter(
-            recipe__cart__user=request.user).values_list(
-            'ingredient__name', 'ingredient__measurement_unit',
-            'amount')
-        shopping_cart_list = (
+            recipe__cart__user=request.user
+        ).values(
+            'ingredient__name',
+            'ingredient__measurement_unit'
+        ).annotate(amount=Sum('amount'))
+        shopping_list = (
             f'Список покупок для: {user.get_full_name()}\n\n'
         )
-        shopping_cart_list += '\n'.join([
-            ' '.join(
-                [
-                    str(ingredient[0]),
-                    str(ingredient[1]),
-                    str(ingredient[2]),
-                ]
-            )
+        shopping_list += '\n'.join([
+            f'- {ingredient["ingredient__name"]} '
+            f'({ingredient["ingredient__measurement_unit"]})'
+            f' - {ingredient["amount"]}'
             for ingredient in ingredients
         ])
-        response = HttpResponse(
-            shopping_cart_list, content_type='text.txt; charset=utf-8'
-        )
+        response = HttpResponse(shopping_list, content_type='text/plain')
         response['Content-Disposition'] = f'attachment; filename={filename}'
+
         return response
