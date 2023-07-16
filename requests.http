@@ -1,24 +1,24 @@
 GET http://127.0.0.1:8000/api/users/
 page:1
 limit:6
-Authorization: Token 2b3b89e8442ebf2c11e818431226aa5e5ad07d1f
+Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
 ###
 POST http://127.0.0.1:8000/api/users/
 Content-Type: application/json
 
 {
-"email": "fefsefgr@yandex.ru",
-"username": "ffswekjdgr.pupkin",
-"first_name": "РИся",
-"last_name": "РИпкин",
-"password": "fretuh567"
+"email": "sefsefgr@yandex.ru",
+"username": "dfswekjdgr.pupkin",
+"first_name": "ИИся",
+"last_name": "ИИпкин",
+"password": "tretuh567"
 }
 ###
 GET http://127.0.0.1:8000/api/users/1/
-Authorization: Token 2b3b89e8442ebf2c11e818431226aa5e5ad07d1f
+Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
 ###
 GET http://127.0.0.1:8000/api/users/me/
-Authorization: Token 2b3b89e8442ebf2c11e818431226aa5e5ad07d1f
+Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
 ###
 POST http://127.0.0.1:8000/api/users/set_password/
 Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
@@ -33,16 +33,16 @@ POST http://127.0.0.1:8000/api/auth/token/login/
 Content-Type: application/json
 
 {
-"password": "fretuh567",
-"email": "fefsefgr@yandex.ru"
+"password": "123",
+"email": "fjfj@ya.ru"
 }
 ###
 POST http://127.0.0.1:8000/api/auth/token/logout/
 Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
 ###
-GET http://127.0.0.1:8000/api/tags/
+GET http://127.0.0.1:9000/api/tags/
 ###
-GET http://127.0.0.1:8000/api/tags/1/
+GET http://127.0.0.1:9000/api/tags/1/
 ###
 GET http://127.0.0.1:8000/api/recipes/
 page:
@@ -104,30 +104,29 @@ Authorization: Token 10b96c3bdd8698ab09252e5710e2771583618b14
 GET http://127.0.0.1:9000/api/recipes/download_shopping_cart/
 Authorization: Token 10b96c3bdd8698ab09252e5710e2771583618b14
 ###
-GET http://127.0.0.1:9000/api/ingredients/
+GET http://127.0.0.1:8000/api/ingredients/
 ?title=Сосиски
 ###
-GET  http://127.0.0.1:9000/api/ingredients/2/
+GET  http://127.0.0.1:8000/api/ingredients/3/
 ###
-POST http://127.0.0.1:9000/api/recipes/2/favorite/
-Authorization: Token 10b96c3bdd8698ab09252e5710e2771583618b14
+POST https://kvasty.serveblog.net/api/recipes/2/favorite/
+Authorization: Token ac81371aa128705dd81df0ece84a3cb279eb6dcd
 ###
-DELETE http://127.0.0.1:9000/api/recipes/2/favorite/
-Authorization: Token 10b96c3bdd8698ab09252e5710e2771583618b14
+DELETE http://127.0.0.1:8000/api/recipes/2/favorite/
+Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
 ###
-GET  http://127.0.0.1:9000/api/users/subscriptions/
-Authorization: Token 2bafd365c757d97db4997444c3b1925bb39063fa
+GET  http://127.0.0.1:8000/api/users/subscriptions/
+Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
 page:1
 limit:6
 recipes_limit:2
 ###
-POST http://127.0.0.1:9000/api/users/2/subscribe/
-Authorization: Token 2bafd365c757d97db4997444c3b1925bb39063fa
+POST http://127.0.0.1:8000/api/users/1/subscribe/
+Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
 recipes_limit:1
 ###
-DELETE  http://127.0.0.1:9000/api/users/2/subscribe/
-Authorization: Token 2bafd365c757d97db4997444c3b1925bb39063fa
+DELETE  http://127.0.0.1:8000/api/users/1/subscribe/
+Authorization: Token 57960441f86ee308f0fb0064c0de259c1af6cc0b
 ###
-Token 67c6ed4133fb420ce67fb042d0f0024894b1ef71
-9c8fdfc2670804bd19bae8b269bc2eab457bfb7c
+Token c831074c99182afe2fae3a9f991837cc28a3e747
 

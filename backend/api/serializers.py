@@ -178,7 +178,7 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
 
 
 class FollowSerializer(CustomUserSerializer):
-    """ Сериализатор для получения подписок """
+    """Подписки пользователя"""
     recipes_count = SerializerMethodField()
     recipes = SerializerMethodField()
 
