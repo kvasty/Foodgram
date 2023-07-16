@@ -23,15 +23,9 @@ class Migration(migrations.Migration):
                 ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status')),
                 ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),
                 ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
-<<<<<<< HEAD
                 ('username', models.CharField(max_length=100, unique=True, verbose_name='Логин')),
                 ('password', models.CharField(max_length=100, unique=True, verbose_name='Фамилия')),
                 ('email', models.EmailField(max_length=254, unique=True, verbose_name='Электронная почта')),
-=======
-                ('email', models.EmailField(max_length=100, unique=True, verbose_name='Электронная почта')),
-                ('username', models.CharField(max_length=100, unique=True, verbose_name='Логин')),
-                ('password', models.CharField(max_length=100, unique=True, verbose_name='Пароль')),
->>>>>>> 7d7d4d8233cec01027a5da081f4ff941a6f8d6ee
                 ('first_name', models.CharField(max_length=100, unique=True, verbose_name='Имя')),
                 ('last_name', models.CharField(max_length=100, unique=True, verbose_name='Фамилия')),
                 ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
@@ -39,33 +33,10 @@ class Migration(migrations.Migration):
             ],
             options={
                 'verbose_name': 'Пользователь',
-<<<<<<< HEAD
-=======
-                'verbose_name_plural': 'Пользователи',
->>>>>>> 7d7d4d8233cec01027a5da081f4ff941a6f8d6ee
                 'ordering': ('id',),
             },
             managers=[
                 ('objects', django.contrib.auth.models.UserManager()),
             ],
         ),
-<<<<<<< HEAD
-=======
-        migrations.CreateModel(
-            name='Follow',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='following', to=settings.AUTH_USER_MODEL, verbose_name='Автор рецепта')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='follower', to=settings.AUTH_USER_MODEL, verbose_name='Подписчик')),
-            ],
-            options={
-                'verbose_name': 'Подписка',
-                'verbose_name_plural': 'Подписки',
-            },
-        ),
-        migrations.AddConstraint(
-            model_name='follow',
-            constraint=models.UniqueConstraint(fields=('user', 'author'), name='unique_follow'),
-        ),
->>>>>>> 7d7d4d8233cec01027a5da081f4ff941a6f8d6ee
     ]
