@@ -11,7 +11,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure')
 
-DEBUG = os.getenv('DEBUG_VALUE', True)
+DEBUG = os.getenv('DEBUG_VALUE', False)
 
 ALLOWED_HOSTS = ['*']
 
