@@ -135,6 +135,8 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         tags = self.initial_data.get('tags')
         if not ingredients or not tags:
             raise ValidationError('Некорректные данные')
+        if Recipe.objects.filter(name=self.initial_data.get('name')).exists():
+            raise ValidationError('Название рецепта уже занято')
         data.update(
             {
                 'tags': tags,
