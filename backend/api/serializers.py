@@ -140,6 +140,12 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         if Recipe.objects.filter(name=name).exists() and \
                 request.method == 'POST':
             raise ValidationError('Такой рецепт уже существует')
+        for ingredient in ingredients:
+            amount = ingredient['amount']
+            if int(amount) <= 0:
+                raise ValidationError({
+                   'amount': 'Количество ингредиента должно быть больше 0'
+                })
         data.update(
             {
                 'tags': tags,
